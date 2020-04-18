@@ -1,19 +1,21 @@
+use core::convert::Infallible;
+
 use embedded_hal::blocking::delay::{DelayMs, DelayUs};
 use embedded_hal::digital::v2::OutputPin;
 
 use bus::DataBus;
 
 pub struct EightBitBus<
-    RS: OutputPin,
-    EN: OutputPin,
-    D0: OutputPin,
-    D1: OutputPin,
-    D2: OutputPin,
-    D3: OutputPin,
-    D4: OutputPin,
-    D5: OutputPin,
-    D6: OutputPin,
-    D7: OutputPin,
+    RS: OutputPin<Error = Infallible>,
+    EN: OutputPin<Error = Infallible>,
+    D0: OutputPin<Error = Infallible>,
+    D1: OutputPin<Error = Infallible>,
+    D2: OutputPin<Error = Infallible>,
+    D3: OutputPin<Error = Infallible>,
+    D4: OutputPin<Error = Infallible>,
+    D5: OutputPin<Error = Infallible>,
+    D6: OutputPin<Error = Infallible>,
+    D7: OutputPin<Error = Infallible>,
 > {
     rs: RS,
     en: EN,
@@ -28,16 +30,16 @@ pub struct EightBitBus<
 }
 
 impl<
-        RS: OutputPin,
-        EN: OutputPin,
-        D0: OutputPin,
-        D1: OutputPin,
-        D2: OutputPin,
-        D3: OutputPin,
-        D4: OutputPin,
-        D5: OutputPin,
-        D6: OutputPin,
-        D7: OutputPin,
+        RS: OutputPin<Error = Infallible>,
+        EN: OutputPin<Error = Infallible>,
+        D0: OutputPin<Error = Infallible>,
+        D1: OutputPin<Error = Infallible>,
+        D2: OutputPin<Error = Infallible>,
+        D3: OutputPin<Error = Infallible>,
+        D4: OutputPin<Error = Infallible>,
+        D5: OutputPin<Error = Infallible>,
+        D6: OutputPin<Error = Infallible>,
+        D7: OutputPin<Error = Infallible>,
     > EightBitBus<RS, EN, D0, D1, D2, D3, D4, D5, D6, D7>
 {
     pub fn from_pins(
@@ -77,83 +79,83 @@ impl<
         let db7: bool = (0b1000_0000 & data) != 0;
 
         if db0 {
-            self.d0.set_high();
+            self.d0.set_high().unwrap();
         } else {
-            self.d0.set_low();
+            self.d0.set_low().unwrap();
         }
 
         if db1 {
-            self.d1.set_high();
+            self.d1.set_high().unwrap();
         } else {
-            self.d1.set_low();
+            self.d1.set_low().unwrap();
         }
 
         if db2 {
-            self.d2.set_high();
+            self.d2.set_high().unwrap();
         } else {
-            self.d2.set_low();
+            self.d2.set_low().unwrap();
         }
 
         if db3 {
-            self.d3.set_high();
+            self.d3.set_high().unwrap();
         } else {
-            self.d3.set_low();
+            self.d3.set_low().unwrap();
         }
 
         if db4 {
-            self.d4.set_high();
+            self.d4.set_high().unwrap();
         } else {
-            self.d4.set_low();
+            self.d4.set_low().unwrap();
         }
 
         if db5 {
-            self.d5.set_high();
+            self.d5.set_high().unwrap();
         } else {
-            self.d5.set_low();
+            self.d5.set_low().unwrap();
         }
 
         if db6 {
-            self.d6.set_high();
+            self.d6.set_high().unwrap();
         } else {
-            self.d6.set_low();
+            self.d6.set_low().unwrap();
         }
 
         if db7 {
-            self.d7.set_high();
+            self.d7.set_high().unwrap();
         } else {
-            self.d7.set_low();
+            self.d7.set_low().unwrap();
         }
     }
 }
 
 impl<
-        RS: OutputPin,
-        EN: OutputPin,
-        D0: OutputPin,
-        D1: OutputPin,
-        D2: OutputPin,
-        D3: OutputPin,
-        D4: OutputPin,
-        D5: OutputPin,
-        D6: OutputPin,
-        D7: OutputPin,
+        RS: OutputPin<Error = Infallible>,
+        EN: OutputPin<Error = Infallible>,
+        D0: OutputPin<Error = Infallible>,
+        D1: OutputPin<Error = Infallible>,
+        D2: OutputPin<Error = Infallible>,
+        D3: OutputPin<Error = Infallible>,
+        D4: OutputPin<Error = Infallible>,
+        D5: OutputPin<Error = Infallible>,
+        D6: OutputPin<Error = Infallible>,
+        D7: OutputPin<Error = Infallible>,
     > DataBus for EightBitBus<RS, EN, D0, D1, D2, D3, D4, D5, D6, D7>
 {
     fn write<D: DelayUs<u16> + DelayMs<u8>>(&mut self, byte: u8, data: bool, delay: &mut D) {
         if data {
-            self.rs.set_high();
+            self.rs.set_high().unwrap();
         } else {
-            self.rs.set_low();
+            self.rs.set_low().unwrap();
         }
 
         self.set_bus_bits(byte);
 
-        self.en.set_high();
+        self.en.set_high().unwrap();
         delay.delay_ms(2u8);
-        self.en.set_low();
+        self.en.set_low().unwrap();
 
         if data {
-            self.rs.set_low();
+            self.rs.set_low().unwrap();
         }
     }
 }

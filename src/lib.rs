@@ -2,6 +2,7 @@
 
 use core::fmt::Result;
 use core::fmt::Write;
+use core::convert::Infallible;
 
 extern crate embedded_hal;
 
@@ -52,16 +53,16 @@ pub enum CursorBlink {
 
 impl<
         D: DelayUs<u16> + DelayMs<u8>,
-        RS: OutputPin,
-        EN: OutputPin,
-        D0: OutputPin,
-        D1: OutputPin,
-        D2: OutputPin,
-        D3: OutputPin,
-        D4: OutputPin,
-        D5: OutputPin,
-        D6: OutputPin,
-        D7: OutputPin,
+        RS: OutputPin<Error = Infallible>,
+        EN: OutputPin<Error = Infallible>,
+        D0: OutputPin<Error = Infallible>,
+        D1: OutputPin<Error = Infallible>,
+        D2: OutputPin<Error = Infallible>,
+        D3: OutputPin<Error = Infallible>,
+        D4: OutputPin<Error = Infallible>,
+        D5: OutputPin<Error = Infallible>,
+        D6: OutputPin<Error = Infallible>,
+        D7: OutputPin<Error = Infallible>,
     > HD44780<D, EightBitBus<RS, EN, D0, D1, D2, D3, D4, D5, D6, D7>>
 {
     /// Create an instance of a `HD44780` from 8 data pins, a register select
@@ -103,12 +104,12 @@ impl<
 
 impl<
         D: DelayUs<u16> + DelayMs<u8>,
-        RS: OutputPin,
-        EN: OutputPin,
-        D4: OutputPin,
-        D5: OutputPin,
-        D6: OutputPin,
-        D7: OutputPin,
+        RS: OutputPin<Error = Infallible>,
+        EN: OutputPin<Error = Infallible>,
+        D4: OutputPin<Error = Infallible>,
+        D5: OutputPin<Error = Infallible>,
+        D6: OutputPin<Error = Infallible>,
+        D7: OutputPin<Error = Infallible>,
     > HD44780<D, FourBitBus<RS, EN, D4, D5, D6, D7>>
 {
     /// Create an instance of a `HD44780` from 4 data pins, a register select
